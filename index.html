@@ -14,7 +14,10 @@
 
         body {
           font-family: Arial, sans-serif;
-          background-color: #f4f4f4;
+      background-color: #f4f4f4;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
         }
         h1 {
           text-align: center;
@@ -213,7 +216,42 @@
           margin: 0 auto;
           height: 100px;
           width: 100px;
+
+          
         }
+        .weather-details {
+          display: flex;
+          justify-content: space-between;
+        }
+.left-details {
+  display: flex;
+  align-items: center;
+  margin-right: 20px; /* Add spacing between weather icon and left-aligned details */
+}
+.right-details {
+  text-align: right; /* Align details to the right */
+  margin-top: 26px;
+}
+.center-heading {
+  text-align: center;
+  margin-bottom: 15px; /* Add some spacing below the centered heading */
+}
+/* Add these styles to your existing CSS */
+.centered-weather {
+  text-align: center !important;
+}
+.weather.clear {
+      background-image: url('benjamin-sow-QjR_snVQn4c-unsplash.jpg');
+    }
+
+    .weather.clouds {
+      background-image: url('bchuttersnap-rk2s0sm8xF4-unsplash.jpg');
+    }
+
+    .weather.rain {
+      background-image: url('chan-hoi-uj-w-v7OFT4-unsplash.jpg');
+    }
+
   </style>
   </head>
   <body>
@@ -238,74 +276,86 @@
       <div id="result"></div>
     </div>
     <script type="text/javascript">
- // Register service worker
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(registration => {
-          console.log('Service Worker registered with scope:', registration.scope);
-        })
-        .catch(error => {
-          console.error('Service Worker registration failed:', error);
-        });
-    });
-  }
-      function getWeather() {
-        const city = document.getElementById("city").value;
-        const apiKey = "3e04dee986b3b9b37bbda3d8cf171a1f";
-        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=en&aqi=yes&cnt=1`;
-        fetch(url)
-          .then((response) => response.json())
-          .then((data) => {
-            if (!data.weather || data.weather.length === 0) {
-              throw new Error("Weather data not found.");
-            }
-            const weather = data.weather[0].description;
-            const icon = data.weather[0].icon;
-            const temp = data.main.temp;
-            const feelsLike = data.main.feels_like;
-            const humidity = data.main.humidity;
-            const result = document.getElementById("result");
-            result.innerHTML = `
-              <h3>Weather in ${city}</h3>
-              <p><strong>Weather:</strong> ${weather} <img src="http://openweathermap.org/img/w/${icon}.png" /></p>
-              <p><strong>Temperature:</strong> ${temp}°C</p>
-              <p><strong>Feels like:</strong> ${feelsLike}°C</p>
-              <p><strong>Humidity:</strong> ${humidity}%</p>
-            `;
-          })
-          .catch((error) => {
-            console.error(error);
-            const result = document.getElementById("result");
-            result.innerHTML = `
-              <p>An error occurred while fetching weather data. Please try again later.</p>
-            `;
-          });
-      }
-//buttondark
-const toggleSwitch = document.querySelector('.toggle-switch input[type="checkbox"]');
-const outer = document.getElementById('outer');
-toggleSwitch.addEventListener('change', function() {
-  if(this.checked) {
-    outer.classList.add('dark-mode');
-  } else {
-    outer.classList.remove('dark-mode');
-  }
-});
-const toggle1 = document.querySelector('#toggle1');
+      // Register service worker
+     if ('serviceWorker' in navigator) {
+         window.addEventListener('load', () => {
+           navigator.serviceWorker.register('service-worker.js')
+             .then(registration => {
+               console.log('Service Worker registered with scope:', registration.scope);
+             })
+             .catch(error => {
+               console.error('Service Worker registration failed:', error);
+             });
+         });
+       }
+           function getWeather() {
+             const city = document.getElementById("city").value;
+             const apiKey = "3e04dee986b3b9b37bbda3d8cf171a1f";
+             const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=en&aqi=yes&cnt=1`;
+             fetch(url)
+               .then((response) => response.json())
+               .then((data) => {
+                 if (!data.weather || data.weather.length === 0) {
+                   throw new Error("Weather data not found.");
+                 }
+                 const weather = data.weather[0].description;
+                 const icon = data.weather[0].icon;
+                 const temp = data.main.temp;
+                 const feelsLike = data.main.feels_like;
+                 const humidity = data.main.humidity;
+                 const result = document.getElementById("result");
+                 result.innerHTML = `
+                 <div id="result">
+                   <h3 class="center-heading">Weather in ${city}</h3>
+                   <p class="centered-weather"><strong>Weather:</strong> ${weather} 
+                   <div class="weather-details">
+                   <div class="left-details">
+                   <img src="http://openweathermap.org/img/w/${icon}.png" /></p>
+                   </div>
+                   <div class="right-details">
+                   <p><strong>Temperature:</strong> ${temp}°C</p>
+                   <p><strong>Feels like:</strong> ${feelsLike}°C</p>
+                   <p><strong>Humidity:</strong> ${humidity}%</p>
+                 </div>
+       </div>
+     </div>
+                 `;
+ 
+     
+               })
+               .catch((error) => {
+                 console.error(error);
+                 const result = document.getElementById("result");
+                 result.innerHTML = `
+                   <p>An error occurred while fetching weather data. Please try again later.</p>
+                 `;
+               });
+           }
 
-toggle1.addEventListener('click', function() {
-  document.body.classList.toggle('dark-mode');
-
-});
-//Enterkey
-document.addEventListener("keydown", function(event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    getWeather();
-  }
-});
-
-  </script>
+     //buttondark
+     const toggleSwitch = document.querySelector('.toggle-switch input[type="checkbox"]');
+     const outer = document.getElementById('outer');
+     toggleSwitch.addEventListener('change', function() {
+       if(this.checked) {
+         outer.classList.add('dark-mode');
+       } else {
+         outer.classList.remove('dark-mode');
+       }
+     });
+     const toggle1 = document.querySelector('#toggle1');
+     
+     toggle1.addEventListener('click', function() {
+       document.body.classList.toggle('dark-mode');
+     
+     });
+     //Enterkey
+     document.addEventListener("keydown", function(event) {
+       if (event.key === "Enter") {
+         event.preventDefault();
+         getWeather();
+       }
+     });
+     
+       </script>
   </body>
   </html>
