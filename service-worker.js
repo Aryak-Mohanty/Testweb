@@ -1,4 +1,4 @@
-const CACHE_NAME = 'searchpage-cache-v1';
+const CACHE_NAME = 'weather-cache-v1';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
