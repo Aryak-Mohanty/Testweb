@@ -8,7 +8,7 @@ self.addEventListener('install', (event) => {
         const resourcesToCache = [
           '/',
           'index.html',
-          'icon.png',
+          'weather-icon.png',
           // ... other assets ...
         ];
 
